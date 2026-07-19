@@ -4,6 +4,8 @@ from django.shortcuts import render
 from dotenv import load_dotenv
 from google import genai
 
+from .service import generate_response
+
 load_dotenv()
 
 client = genai.Client(
@@ -14,22 +16,13 @@ client = genai.Client(
 def chat(request):
 
     user_message = ""
-    ai_response = ""
+    reply = ""
+
 
     if request.method == "POST":
 
         user_message = request.POST.get("message")
 
-        response = client.models.generate_content(
-            model="gemini-3.5-flash",
-            contents=user_message,
-        )
+        reply = generate_response(user_message)
 
-        ai_response = response.text
-
-    context = {
-        "user_message": user_message,
-        "ai_response": ai_response,
-    }
-
-    return render(request, "chatbot/chat.html", context)
+    return render(request, "chatbot/chat.html",  {"user_message": user_message,"reply":reply})
