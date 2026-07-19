@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Shop Assistant</title>
+</head>
+<body>
+
+    <h1>🤖 AI Shop Assistant</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input
+            type="text"
+            name="message"
+            placeholder="Ask something..."
+            style="width:300px;">
+
+        <button type="submit">
+            Send
+        </button>
+    </form>
+
+    <hr>
+
+    {% if user_message %}
+        <h3>You:</h3>
+        <p>{{ user_message }}</p>
+    {% endif %}
+
+    {% if ai_response %}
+        <h3>AI:</h3>
+        <p>{{ ai_response }}</p>
+    {% endif %}
+
+</body>
+</html>
